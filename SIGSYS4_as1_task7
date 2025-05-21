@@ -2,7 +2,7 @@ clear all
 
 R=1000;
 C=0.001;
-G=100;
+G=50;
 R2=4000;
 R3=5000;
 
@@ -10,8 +10,8 @@ D = [(R*C)^2, G*R*C*(R2/R3), G^2];
 H1 = tf(-G^2,D);
 
 N=100;
-t = linspace(0,2,100);
-f=1; %fundamental frquency
+t = linspace(0,0.2,4000);
+f=50; %fundamental frquency
 
 
 squareWave = squareWave(N,t,f,false)
