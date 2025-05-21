@@ -1,0 +1,23 @@
+% N: end point, number of sine-signals
+% t: time vector
+% f: fundamental frequency
+% plot: true or false
+function [FourierExp] = squareWave(N,t,f,plot)
+    %Test values
+    %N=50;
+    %t = linspace(0,2,100);
+    %f=50;
+    %plot=true;
+    
+    n = 1:2:2*N-1;                   % Udda termer: 1, 3, ..., 21
+    
+    FourierExp = 0;
+    
+    for i = 1:length(n)
+        k = n(i);   % hämta aktuellt udda tal
+        FourierExp = FourierExp + (4 / (pi * k)) * sin(f * 2 * pi * k * t);
+    end
+    if plot
+        plot(t, FourierExp);
+    end
+end
