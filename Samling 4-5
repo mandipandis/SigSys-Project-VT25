@@ -1,13 +1,13 @@
-Fs = 22000;             % Samplingsfrekvens (Hz)
+Fs = 22000;        
 Ts = 1/Fs;
-Fs_sim = Fs * 20;       % Simuleringsfrekvens (mycket högre än sampling)
+Fs_sim = Fs * 20;  
 Ts_sim = 1/Fs_sim;
-t_end = 1e-3;           % Simuleringstid: 2 ms
-t = 0:Ts_sim:t_end;     % Tid för simulering
+t_end = 1e-3;      
+t = 0:Ts_sim:t_end;
 
-% Signal: en intressant + en störning
-f_signal = 3000;        % Inom 0–8kHz
-f_noise = 11000;        % ≥11kHz
+%Signal + noise
+f_signal = 3000;
+f_noise = 11000;       
 A = 1;
 x = A*sin(2*pi*f_signal*t) + A*sin(2*pi*f_noise*t); % Total signal
 
@@ -27,42 +27,36 @@ sample_idx = 1:round(Fs_sim/Fs):length(t);
 t_sampled = t(sample_idx);
 y_sampled = y_filtered(sample_idx);
 
-N = length(y_sampled);       % Antal sampelpunkter
-Y = fft(y_sampled);          % FFT
+N = length(y_sampled);      
+Y = fft(y_sampled);       
 Y_mag = abs(Y)/N;
-Y_mag(2:end-1) = 2*Y_mag(2:end-1);  % Skala upp allt utom DC och Nyquist
+Y_mag(2:end-1) = 2*Y_mag(2:end-1);  
 
-% Ta bara första halvan (positiva frekvenser upp till Nyquist)
+%Only freq first half
 Y_mag = Y_mag(1:floor(N/2));
-f_axis = (0:floor(N/2)-1)*(Fs/N)/1000;  % Frekvensaxel i kHz
+f_axis = (0:floor(N/2)-1)*(Fs/N)/1000;
 
-% Plotta
+% Plot
 figure;
 subplot(3,1,1);
 plot(t*1e3, x);
-title('Original analog signal');
-xlabel('Tid (ms)'); ylabel('Amplitude');
+title('Analog signal');
+xlabel('Tid [ms]'); ylabel('Amplitude');
 
 subplot(3,1,2);
 plot(t*1e3, y_filtered);
-title('Efter anti-aliasingfilter');
-xlabel('Tid (ms)'); ylabel('Amplitude');
+title('Anti-aliasingfilter');
+xlabel('Tid [ms]'); ylabel('Amplitude');
 
 subplot(3,1,3);
 stem(t_sampled*1e3, y_sampled, 'filled');
 title('Sampled signal');
-xlabel('Tid (ms)'); ylabel('Amplitude');
-
-% Kontrollera filterprestanda
-figure;
-freqs(b, a);  % Bodeplot i analog domän
-title('Frekvensgång för analogt anti-aliasingfilter');
-
+xlabel('Tid [ms]'); ylabel('Amplitude');
 
 figure;
 plot(f_axis, Y_mag);
 xlabel('Frekvens (kHz)');
 ylabel('Amplitud');
-title('Amplitudspektrum av den samplade signalen');
+title('Amplitud off sampled signal');
 grid on;
-xlim([0 Fs/2000]);  % Visa upp till Nyquist (Fs/2 i kHz
+xlim([0 Fs/2000]);
