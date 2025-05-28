@@ -16,6 +16,7 @@ iopzplot(H1, H2, H3);
 
 figure(2)
 impulse(H1,H2);
+% H3 kan användas om man vill jämföra eller simulera systemet teoretiskt.
 % impulse(H2);
 % impulse(H3);
 
