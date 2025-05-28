@@ -20,6 +20,10 @@ Rs = 72;          %stopband dämpning
 [b, a] = cheby1(n, Rp, Wn, 's');
 sys = tf(b, a);
 
+%3
+bode(H)
+grid on
+
 y_filtered = lsim(sys, x, t);
 
 %Sample vid Fs
